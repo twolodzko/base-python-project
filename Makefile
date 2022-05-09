@@ -15,48 +15,47 @@ ENVNAME := `basename $(PWD)`
 allchecks: stylecheck lint typecheck test ## Run all the code checks
 
 .PHONY: dev
-dev: .venv dependencies .git/hooks/pre-commit ## Setup dev environment
+dev: .venv/bin/% .git/hooks/pre-commit ## Setup dev environment
 
 .PHONY: update
-update: .venv ## Update the dependencies
+update: .venv/bin/% ## Update the dependencies
 	$(RUN) pip install -U pip
 	$(RUN) pip install -U -r requirements-dev.txt
 	$(RUN) pip install -U -r requirements.txt
 	$(RUN) pre-commit autoupdate
 
 .PHONY: test
-test: .venv ## Run tests
-	$(RUN) pytest -x --ff -v --color=yes --doctest-modules --durations=20 --cov=$(CODEDIR) --ignore=$(OPTIMDIR) $(CODEDIR)
+test: .venv/bin/pytest ## Run tests
+	$(RUN) pytest -x --ff -v --color=yes --doctest-modules --durations=20 --cov=$(CODEDIR) $(CODEDIR)
 
 .PHONY: coverage
-coverage: .venv ## Prepare code test coverage report
+coverage: .venv/bin/pytest ## Prepare code test coverage report
 	$(RUN) pytest -v --color=yes --doctest-modules --cov-report html --cov=$(CODEDIR) $(CODEDIR)
 
 .PHONY: lint
-lint: .venv ## Run linter
+lint: .venv/bin/flake8 ## Run linter
 	$(RUN) flake8 --config setup.cfg $(CODEDIR)
 
 .PHONY: stylecheck
-stylecheck: .venv ## Run style checks
+stylecheck: .venv/bin/isort .venv/bin/black ## Run style checks
 	$(RUN) isort --settings-path pyproject.toml --check $(CODEDIR)
 	$(RUN) black --config pyproject.toml --check $(CODEDIR)
 
 .PHONY: stylefix
-stylefix: .venv ## Autoformat the code
+stylefix: .venv/bin/isort .venv/bin/black ## Autoformat the code
 	$(RUN) isort --settings-path pyproject.toml $(CODEDIR)
 	$(RUN) black --config pyproject.toml $(CODEDIR)
 
 .PHONY: typecheck
-typecheck: .venv ## Check types in the code
+typecheck: .venv/bin/mypy ## Check types in the code
 	$(RUN) mypy --config-file pyproject.toml $(CODEDIR)
 
-.PHONY: dependencies
-dependencies: .venv ## Install python dependencies
+.venv/bin/%: .venv
 	$(INVENV) pip install -U pip
 	$(INVENV) pip install -r requirements-dev.txt
 	$(INVENV) pip install -r requirements.txt
 
-.venv: ## Setup venv virtual environment
+.venv:
 	@ printf "Using %s (%s) to setup the virtual environment\n" "$(shell $(PYTHON) --version)" "$(shell which $(PYTHON))"
 	$(PYTHON) -m venv $(VENV) --prompt $(ENVNAME)
 
@@ -64,7 +63,7 @@ dependencies: .venv ## Install python dependencies
 	git init
 
 .git/hooks/pre-commit: .git
-	$(INVENV) pre-commit install
+	$(RUN) pre-commit install
 
 .PHONY: pre-commit
 pre-commit: .venv ## Run pre-commit for all the files
