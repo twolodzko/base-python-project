@@ -45,7 +45,7 @@ typecheck: ## Check types in the code
 
 .PHONY: dependencies
 dependencies: ## Install python dependencies
-	$(INVENV) pip install --upgrade pip
+	$(INVENV) pip install -U pip
 	$(INVENV) pip install -r requirements-dev.txt
 	$(INVENV) pip install -r requirements.txt
 
@@ -57,7 +57,18 @@ dependencies: ## Install python dependencies
 	git init
 
 .git/hooks/pre-commit: .git ## Install pre-commit hooks
-	pre-commit install
+	$(INVENV) pre-commit install
+
+.PHONY: pre-commit
+pre-commit: ## Run pre-commit
+	$(RUN) pre-commit run --all-files
+
+.PHONY: update
+update: ## Update the dependencies
+	$(RUN) pip install -U pip
+	$(RUN) pip install -U -r requirements-dev.txt
+	$(RUN) pip install -U -r requirements.txt
+	$(RUN) pre-commit autoupdate
 
 .PHONY: clean
 clean: ## Clean after tests

@@ -1,0 +1,22 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.rulers": [
+            120
+        ],
+        "python.sortImports.args": [
+            "--line-length=120",
+            "--force-grid-wrap=0",
+            "--multi-line=0",
+            "--lines-after-imports=2"
+        ],
+        "python.formatting.blackArgs": [
+            "--config=pyproject.toml"
+        ],
+        "python.formatting.provider": "black"
+    }
+}
