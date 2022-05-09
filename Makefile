@@ -19,9 +19,6 @@ dev: .venv/bin/% .git/hooks/pre-commit ## Setup dev environment
 
 .PHONY: update
 update: .venv/bin/% ## Update the dependencies
-	$(RUN) pip install -U pip
-	$(RUN) pip install -U -r requirements-dev.txt
-	$(RUN) pip install -U -r requirements.txt
 	$(RUN) pre-commit autoupdate
 
 .PHONY: test
@@ -52,8 +49,8 @@ typecheck: .venv/bin/mypy ## Check types in the code
 
 .venv/bin/%: .venv
 	$(INVENV) pip install -U pip
-	$(INVENV) pip install -r requirements-dev.txt
-	$(INVENV) pip install -r requirements.txt
+	$(INVENV) pip install -U -r requirements-dev.txt
+	$(INVENV) pip install -U -r requirements.txt
 
 .venv:
 	@ printf "Using %s (%s) to setup the virtual environment\n" "$(shell $(PYTHON) --version)" "$(shell which $(PYTHON))"
