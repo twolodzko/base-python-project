@@ -62,8 +62,8 @@ dependencies: ## Install python dependencies
 .PHONY: clean
 clean: ## Clean after tests
 	rm -rfv ./tmp*
-	rm -rfv ./.mypy_cache ./python/.mypy_cache
-	rm -rfv ./.pytest_cache ./python/.pytest_cache
+	rm -rfv ./.mypy_cache
+	rm -rfv ./.pytest_cache
 	rm -rfv ./.coverage*
 
 .PHONY: help
