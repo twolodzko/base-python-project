@@ -62,8 +62,8 @@ typecheck: .venv/bin/mypy ## Check types in the code
 .git/hooks/pre-commit: .git
 	$(RUN) pre-commit install
 
-.PHONY: pre-commit
-pre-commit: .venv ## Run pre-commit for all the files
+.PHONY: precommit
+precommit: .venv ## Run pre-commit for all the files
 	$(RUN) pre-commit run --all-files
 
 .PHONY: clean

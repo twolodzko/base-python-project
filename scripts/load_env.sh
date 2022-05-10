@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # To load environment variables from the .env file run:
 #
 # . load_env.sh [PATH]
@@ -11,9 +13,9 @@ fi
 printf "Loading environment variables from the %s file:\n" "$ENVFILE"
 
 while read -r line; do
-    # ignore comments
+    # ignore empty lines and comments
     comment='\s*#.*'
-    if [[ ! $line =~ $comment ]] ; then
+    if [[ -n $line ]] && [[ ! $line =~ $comment ]] ; then
         # make sure to expand the variables rather than providing them as strings
         variable="$(eval echo "$line")"
         echo "$variable"

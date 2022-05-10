@@ -43,3 +43,8 @@ repos:
     hooks:
       - id: isort
         args: [--settings-path, pyproject.toml]
+
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.17
+    hooks:
+      - id: shellcheck
