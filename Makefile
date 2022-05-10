@@ -18,8 +18,14 @@ allchecks: stylecheck lint typecheck test ## Run all the code checks
 dev: .venv/bin/% .git/hooks/pre-commit ## Setup dev environment
 
 .PHONY: update
-update: .venv/bin/% ## Update the dependencies
+update: dependencies ## Update the dependencies and pre-commit
 	$(RUN) pre-commit autoupdate
+
+.PHONY: dependencies
+dependencies: .venv ## Install or update the dependencies
+	$(INVENV) pip install -U pip
+	$(INVENV) pip install -U -r requirements-dev.txt
+	$(INVENV) pip install -U -r requirements.txt
 
 .PHONY: test
 test: .venv/bin/pytest ## Run tests
@@ -47,10 +53,7 @@ stylefix: .venv/bin/isort .venv/bin/black ## Autoformat the code
 typecheck: .venv/bin/mypy ## Check types in the code
 	$(RUN) mypy --config-file pyproject.toml $(CODEDIR)
 
-.venv/bin/%: .venv
-	$(INVENV) pip install -U pip
-	$(INVENV) pip install -U -r requirements-dev.txt
-	$(INVENV) pip install -U -r requirements.txt
+.venv/bin/%: .venv dependencies
 
 .venv:
 	@ printf "Using %s (%s) to setup the virtual environment\n" "$(shell $(PYTHON) --version)" "$(shell which $(PYTHON))"
