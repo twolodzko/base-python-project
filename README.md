@@ -1,10 +1,10 @@
 # Basic python project setup
 
 This project assumes using Unix-like operating system with Python, git and GNU Make installed. It assumes using
-Python 3.8 version, this can be changed by setting the `PYTHON` variable in Makefile to something else. To setup
-a project, copy all the files to desired directory and run `make dev`.
+the default python for the machine, this can be changed by setting the `PYTHON` variable. To setup a project, copy
+all the files to desired directory and run `make dev`.
 
-It assumes the following dev environment:
+## It assumes the following dev environment:
 
 - [Makefile] is used for automation of the dev workflow. The `make` command runs all the code checks.
 - Git is used for version control, if it is not initialized, `make dev` will run `git init`.
@@ -18,6 +18,21 @@ It assumes the following dev environment:
 - [flake8] is used as code linter, but it ignores the stylistic issues that are fixed by Black.
 - [mypy] is used for static code analysis and type checking.
 - Each of the steps is configured to *fail fast* in case of any error.
+
+## How to use it.
+
+1. Click the "Use this template" button in GitHub to create a new repository *OR* just copy all the files to your local
+   machine, to the directory where you start your new project.
+2. Run `make dev` to setup the dev environment. If you want to use a specific version of python, use
+   `make dev PYTHON=python3.8`, where `PYTHON=` should point to the name of the Python executable or path leading to it.
+
+Additionally:
+
+- Any time you edit `requirements.txt` or `requirements-dev.txt`, run `make update` to update all the dependencies.
+- To test the code run `make` or `make allchecks` is you want to be more specific. For running individually the 
+   black and isort, linter, mypy, or unit tests, use `make stylecheck`, `make lint`, `make typecheck`, `make test`
+   respectively. If you want to manually fix code formatting, run `make stylefix`. `make coverage` would generate the
+   test coverage report. To manually run the pre-commit hooks, run `make precommit`.
 
 
  [Python's venv]: https://docs.python.org/3/library/venv.html

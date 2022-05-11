@@ -4,7 +4,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 .SHELLFLAGS := -eu -o pipefail -c
 
-PYTHON := python3.8
+PYTHON := python
 CODEDIR := .
 VENV := .venv
 INVENV := source $(VENV)/bin/activate &&
