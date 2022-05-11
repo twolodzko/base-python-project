@@ -21,8 +21,12 @@ all the files to desired directory and run `make dev`.
 
 ## How to use it.
 
-1. Click the "Use this template" button in GitHub to create a new repository *OR* just copy all the files to your local
-   machine, to the directory where you start your new project.
+1. Click the "Use this template" button in GitHub to create a new repository  
+   
+   *OR*  
+   
+   copy all the files to your local
+   machine, to the directory where you want to start a new project.
 2. Run `make dev` to setup the dev environment. If you want to use a specific version of python, use
    `make dev PYTHON=python3.8`, where `PYTHON=` should point to the name of the Python executable or path leading to it.
 
