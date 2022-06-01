@@ -18,7 +18,6 @@ exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 120
-src_paths = ["python"]
 
 [tool.mypy]
 show_error_codes = true
