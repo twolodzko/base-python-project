@@ -37,7 +37,7 @@ coverage: .venv/bin/pytest ## Prepare code test coverage report
 
 .PHONY: lint
 lint: .venv/bin/flake8 ## Run linter
-	$(RUN) flake8 --config setup.cfg $(CODEDIR)
+	$(RUN) ruff --config pyproject.toml $(CODEDIR)
 
 .PHONY: stylecheck
 stylecheck: .venv/bin/isort .venv/bin/black ## Run style checks
@@ -48,6 +48,7 @@ stylecheck: .venv/bin/isort .venv/bin/black ## Run style checks
 stylefix: .venv/bin/isort .venv/bin/black ## Autoformat the code
 	$(RUN) isort --settings-path pyproject.toml $(CODEDIR)
 	$(RUN) black --config pyproject.toml $(CODEDIR)
+	$(RUN) ruff --config pyproject.toml --fix $(CODEDIR)
 
 .PHONY: typecheck
 typecheck: .venv/bin/mypy ## Check types in the code
