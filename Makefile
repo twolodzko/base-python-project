@@ -14,8 +14,8 @@ ENVNAME := `basename $(PWD)`
 .PHONY: allchecks
 allchecks: stylecheck lint typecheck test ## Run all the code checks
 
-.PHONY: dev
-dev: .venv/bin/% .git/hooks/pre-commit ## Setup dev environment
+.PHONY: init
+init: .git .venv dependencies .git/hooks/pre-commit ## Setup the project
 
 .PHONY: update
 update: dependencies ## Update the dependencies and pre-commit
@@ -36,16 +36,16 @@ coverage: .venv/bin/pytest ## Prepare code test coverage report
 	$(RUN) pytest -v --color=yes --doctest-modules --cov-report html --cov=$(CODEDIR) $(CODEDIR)
 
 .PHONY: lint
-lint: .venv/bin/flake8 ## Run linter
+lint: .venv/bin/ruff ## Run linter
 	$(RUN) ruff --config pyproject.toml $(CODEDIR)
 
 .PHONY: stylecheck
-stylecheck: .venv/bin/isort .venv/bin/black ## Run style checks
+stylecheck: .venv/bin/black ## Run style checks
 	$(RUN) isort --settings-path pyproject.toml --check $(CODEDIR)
 	$(RUN) black --config pyproject.toml --check $(CODEDIR)
 
 .PHONY: stylefix
-stylefix: .venv/bin/isort .venv/bin/black ## Autoformat the code
+stylefix: .venv/bin/isort .venv/bin/black .venv/bin/ruff ## Autoformat the code
 	$(RUN) isort --settings-path pyproject.toml $(CODEDIR)
 	$(RUN) black --config pyproject.toml $(CODEDIR)
 	$(RUN) ruff --config pyproject.toml --fix $(CODEDIR)
@@ -79,6 +79,8 @@ clean: ## Clean after the tests
 	rm -rfv ./.mypy_cache
 	rm -rfv ./.pytest_cache
 	rm -rfv ./.coverage*
+	rm -rfv ./.ruff_cache
+	rm -rfv ./.cache/
 
 .PHONY: help
 help: ## Print help
