@@ -27,3 +27,5 @@ exclude = "^(.venv|build|dist)/.*$"
 
 [tool.ruff]
 line-length = 120
+fixable = ['I', 'E', 'W']
+unfixable = ['F401']
