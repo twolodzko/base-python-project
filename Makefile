@@ -60,8 +60,11 @@ typecheck: .venv/bin/mypy ## Check types in the code
 	@ printf "Using %s (%s) to setup the virtual environment\n" "$(shell $(PYTHON) --version)" "$(shell which $(PYTHON))"
 	$(PYTHON) -m venv $(VENV) --prompt $(ENVNAME)
 
-.git:
+.git: .gitignore
 	git init
+
+.gitignore:
+	curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
 .git/hooks/pre-commit: .git .venv/bin/pre-commit
 	$(RUN) pre-commit install
