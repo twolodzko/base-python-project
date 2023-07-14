@@ -63,7 +63,7 @@ typecheck: .venv/bin/mypy ## Check types in the code
 .git: .gitignore
 	git init
 
-.gitignore:
+.gitignore: ## Update the .gitignore file
 	curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
 .git/hooks/pre-commit: .git .venv/bin/pre-commit
@@ -82,4 +82,4 @@ clean: ## Clean after the tests
 
 .PHONY: help
 help: ## Print help
-	@ grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@ grep -E '^\.?[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
