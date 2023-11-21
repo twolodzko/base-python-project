@@ -40,15 +40,16 @@ lint: .venv/bin/ruff ## Run linter
 	$(RUN) ruff --config pyproject.toml $(CODEDIR)
 
 .PHONY: stylecheck
-stylecheck: .venv/bin/black ## Run style checks
+stylecheck: .venv/bin/isort .venv/bin/black .venv/bin/ruff ## Run style checks
 	$(RUN) isort --settings-path pyproject.toml --check $(CODEDIR)
 	$(RUN) black --config pyproject.toml --check $(CODEDIR)
+	$(RUN) ruff format --config pyproject.toml --check $(CODEDIR)
 
 .PHONY: stylefix
 stylefix: .venv/bin/isort .venv/bin/black .venv/bin/ruff ## Autoformat the code
 	$(RUN) isort --settings-path pyproject.toml $(CODEDIR)
 	$(RUN) black --config pyproject.toml $(CODEDIR)
-	$(RUN) ruff --config pyproject.toml --fix $(CODEDIR)
+	$(RUN) ruff format --config pyproject.toml $(CODEDIR)
 
 .PHONY: typecheck
 typecheck: .venv/bin/mypy ## Check types in the code
